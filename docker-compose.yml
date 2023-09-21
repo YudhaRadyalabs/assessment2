@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    
+  seq:
+    image: datalust/seq:latest
+  
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+
+  api1:
+    image: ${DOCKER_REGISTRY-}api1
+    build:
+      context: .
+      dockerfile: api1/Dockerfile
+      
+  api2:
+    image: ${DOCKER_REGISTRY-}api2
+    build:
+      context: .
+      dockerfile: api2/Dockerfile
+

@@ -1,0 +1,20 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "api2",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/api2/v1/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ],
+      "SwaggerKey": "api2",
+      "AuthenticationOptions": {
+
+      }
+    }
+  ]
+}

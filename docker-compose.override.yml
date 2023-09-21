@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+  seq:
+    container_name: seq
+    restart: always
+    ports:
+        - "8003:80"
+    environment:
+    - ACCEPT_EULA=Y
+  
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+        - api1
+        - api2
+    ports:
+      - "5005:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  api1:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - seq
+      - rabbitmq
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  api2:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - seq
+      - rabbitmq
+    ports:
+      - "80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
